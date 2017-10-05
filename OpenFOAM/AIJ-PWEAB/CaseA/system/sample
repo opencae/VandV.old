@@ -1,0 +1,174 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.1                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      sample;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+type sets;
+libs ("libsampling.so");
+
+interpolationScheme cellPointFace;
+
+setFormat raw;
+
+sets
+(
+    verx_-075
+    {
+      type face;
+      axis xyz;
+      start (-0.06 0 0);
+      end (-0.06 0 0.32);	
+    }
+    verx_-050
+    {
+      type face;
+      axis xyz;
+      start (-0.04 0 0.16);
+      end (-0.04 0 0.32);	
+    }
+    verx_-025
+    {
+      type face;
+      axis xyz;
+      start (-0.02 0 0.16);
+      end (-0.02 0 0.32);	
+    }
+    verx_000
+    {
+      type face;
+      axis xyz;
+      start (0 0 0.16);
+      end (0 0 0.32);	
+    }
+    verx_050
+    {
+      type face;
+      axis xyz;
+      start (0.04 0 0.16);
+      end (0.04 0 0.32);	
+    }
+    verx_075
+    {
+      type face;
+      axis xyz;
+      start (0.06 0 0);
+      end (0.06 0 0.32);	
+    }
+    verx_125
+    {
+      type face;
+      axis xyz;
+      start (0.1 0 0);
+      end (0.1 0 0.32);	
+    }
+    verx_200
+    {
+      type face;
+      axis xyz;
+      start (0.16 0 0);
+      end (0.16 0 0.32);	
+    }
+    verx_325
+    {
+      type face;
+      axis xyz;
+      start (0.26 0 0);
+      end (0.26 0 0.32);	
+    }
+
+/*
+    holx_-006
+    {
+      type face;
+      axis xyz;
+      start (-0.06 0 0.01);
+      end (-0.06 -0.16 0.01);	
+
+    }
+
+    holx_-004
+    {
+      type face;
+      axis xyz;
+      start (-0.04 -0.05 0.01);
+      end (-0.04 -0.16 0.01);	
+    }
+
+    holx_-002
+    {
+      type face;
+      axis xyz;
+      start (-0.02 -0.05 0.01);
+      end (-0.02 -0.16 0.01);	
+    }
+
+    holx_000
+    {
+      type face;
+      axis xyz;
+      start (0 -0.05 0.01);
+      end (0 -0.16 0.01);	
+
+    }
+
+    holx_004
+    {
+      type face;
+      axis xyz;
+      start (0.04 -0.05 0.01);
+      end (0.04 -0.16 0.01);	
+    }
+
+    holx_006
+    {
+      type face;
+      axis xyz;
+      start (0.06 0 0.01);
+      end (0.06 -0.16 0.01);	
+    }
+
+    holx_010
+    {
+      type face;
+      axis xyz;
+      start (0.10 0 0.01);
+      end (0.10 -0.16 0.01);	
+    }
+
+    holx_016
+    {
+      type face;
+      axis xyz;
+      start (0.16 0 0.01);
+      end (0.16 -0.16 0.01);	
+    }
+
+    holx_026
+    {
+      type face;
+      axis xyz;
+      start (0.26 0 0.01);
+      end (0.26 -0.16 0.01);	
+    }
+*/
+
+);
+
+fields
+(
+ U
+ k
+);
+
+// *********************************************************************** //

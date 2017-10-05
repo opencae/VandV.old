@@ -1,0 +1,65 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  4.1                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      sampleDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+type sets;
+libs ("libsampling.so");
+
+interpolationScheme cellPoint;
+
+setFormat raw;
+
+sets
+(
+    lineX1
+    {
+        type        midPoint;
+        axis        distance;
+
+        //- cavity. Slightly perturbed so not to align with face or edge.
+        start       (0.0 0.0 0.191);
+        end         (0.0 0.0381 0.191);
+        nPoints     30;
+    }
+
+    lineX2
+    {
+        type        midPoint;
+        axis        distance;
+
+    //- cavity. Slightly perturbed so not to align with face or edge.
+        start       (0.0191 -0.0191 0.191);
+        end         (0.0571 -0.0191 0.191);
+        nPoints     30;
+    }
+
+    lineX3
+    {
+        type        midPoint;
+        axis        distance;
+
+    //- cavity. Slightly perturbed so not to align with face or edge.
+        start       (0.0 -0.0381 0.191);
+        end         (0.0 -0.0762 0.191);
+        nPoints     30;
+    }
+);
+
+fields
+(
+    U
+);
+
+// *********************************************************************** //
