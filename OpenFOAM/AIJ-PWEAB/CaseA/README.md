@@ -42,12 +42,6 @@
 ./Allrun
 ```
 
-以下のように，mオプションを付けて実行すると，残差のモニタープロット付きで実行する．
-
-```
-./Allrun -m
-```
-
 ### 手動実行
 
 #### 格子の生成
@@ -263,7 +257,7 @@ This case solves benchmark test case A defined in AIJ guidelines for practical a
 ### Running the case
 In order to run the case:
 
-1. Type ./Allrun. This script will automatically make mesh, perform CFD calculation. Type ./Allrun -m for the calculation with residual monitoring. 
+1. Type ./Allrun. This script will automatically make mesh, perform CFD calculation.
 1. After the run, you will find profileU.eps and profilek.eps which compare the OpenFOAM results with those of a wind tunnel test [E2].
 1. Type ./Allclean to clean up the case directory and reset to the initial state.
 

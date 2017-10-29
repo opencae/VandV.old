@@ -4,4 +4,11 @@
 
 application=`getApplication`
 
-runApplication $application 
+if [ "x$1" = "x-parallel" -o  "x$1" = "x-p" ]
+then
+    runApplication decomposePar
+    runParallel $application
+    runApplication reconstructPar
+else
+    runApplication $application
+fi
