@@ -16,59 +16,45 @@ FoamFile
 
 ddtSchemes
 {
-    default steadyState;
+    default         steadyState;
 }
 
 gradSchemes
 {
     default         Gauss linear;
-    grad(p)         Gauss linear;
-    grad(U)         Gauss linear;
 }
 
 divSchemes
 {
     default         none;
-    div(phi,U)      Gauss limitedLinearV 1;
-    div(phi,k)      Gauss limitedLinear 1;
-    div(phi,epsilon) Gauss limitedLinear 1;
-    div(phi,R)      Gauss limitedLinear 1;
+    div(phi,U)      bounded Gauss QUICKV;
+    div(phi,k)      bounded Gauss upwind;
+    div(phi,epsilon) bounded Gauss upwind;
+    div(phi,R)      bounded Gauss upwind;
+    div(phi,omega)  bounded Gauss upwind;
     div(R)          Gauss linear;
-    div(phi,nuTilda) Gauss limitedLinear 1;
-    div((nuEff*dev(T(grad(U))))) Gauss linear;
-
-    // for NonlinearKEShih RASModel
+    div((nuEff*dev2(T(grad(U))))) Gauss linear;
     div(nonlinearStress) Gauss linear;
 }
 
 laplacianSchemes
 {
-    default         none;
-    laplacian(nuEff,U) Gauss linear corrected;
-    laplacian((1|A(U)),p) Gauss linear corrected;
-    laplacian(DkEff,k) Gauss linear corrected;
-    laplacian(DepsilonEff,epsilon) Gauss linear corrected;
-    laplacian(DREff,R) Gauss linear corrected;
-    laplacian(DnuTildaEff,nuTilda) Gauss linear corrected;
-    // for potentialFoam
-    laplacian(1,p) Gauss linear corrected;
+    default         Gauss linear orthogonal;
 }
 
 interpolationSchemes
 {
     default         linear;
-    interpolate(U)  linear;
 }
 
 snGradSchemes
 {
-    default         corrected;
+    default         orthogonal;
 }
 
-fluxRequired
+wallDist
 {
-    default         no;
-    p;
+    method meshWave;
 }
 
 // ************************************************************************* //

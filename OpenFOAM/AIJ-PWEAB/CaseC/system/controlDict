@@ -32,7 +32,7 @@ writeInterval   100;
 
 purgeWrite      1;
 
-writeFormat     binary;
+writeFormat     ascii;
 
 writePrecision  6;
 
@@ -44,7 +44,9 @@ timePrecision   6;
 
 runTimeModifiable yes;
 
-// Required in order for setDiscreteFields to work correctly
-libs ("libincompressibleRASModels.so");
+functions
+{
+        #includeFunc    residuals
+}
 
 // ************************************************************************* //

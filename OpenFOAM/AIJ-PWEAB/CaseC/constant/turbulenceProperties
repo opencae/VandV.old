@@ -10,20 +10,22 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    object      changeDictionaryDict;
+    object      RASProperties;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-boundary
+simulationType RAS;
+
+RAS
 {
-    z_
-    {
-        type            wall;
-    }
-    oldInternalFaces
-    {
-        type            wall;
-    }
+    RASModel            kEpsilon;
+    //RASModel            NonlinearKEShih;
+    //RASModel            realizableKE;
+    //RASModel            RNGkEpsilon;
+
+    turbulence          on;
+
+    printCoeffs         on;
 }
 
 // ************************************************************************* //

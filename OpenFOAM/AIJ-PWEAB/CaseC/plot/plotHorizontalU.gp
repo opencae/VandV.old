@@ -9,5 +9,6 @@ set yrange [0:2.0]
 set pointsize 0.8
 V0 = 2.43 
 plot \
-"horizontal_magU_processed.txt" using ($0+1):(($9/V0+2*$8/(V0*V0))) title "CFD" with lp lc 0 pt 2 \
-,"" using ($0+1):4 title "Exp." with lp lc 1 lw 2 pt 7
+'< cat postProcessing/sample/*/horizontal_k_mag\(U\).xy' \
+  using ($0+1):(($5/V0+2*$4/(V0*V0))) title "CFD" with lp lc 0 pt 2 \
+,'plot/exptData/UMeasured0deg.txt' using ($0+1):4 title "Exp." with lp lc 1 lw 2 pt 7

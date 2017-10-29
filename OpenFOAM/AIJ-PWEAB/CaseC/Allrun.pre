@@ -1,0 +1,17 @@
+#!/bin/sh
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+# create structured base mesh
+runApplication -s makeStructuredGridMesh python ../../bin/makeStructuredGridMesh.py
+
+# remove cells inside block
+mkdir constant/polyMesh/sets
+runApplication insideCells constant/triSurface/building.stl building
+runApplication topoSet
+runApplication subsetMesh building -overwrite
+
+# change boundary types to appropriate ones
+runApplication changeDictionary
+
+cp -a orig0 0

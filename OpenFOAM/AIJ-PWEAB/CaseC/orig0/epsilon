@@ -22,8 +22,10 @@ boundaryField
 {
     x_
     {
-        type            fixedValue;
-	value           uniform 0;
+        type            timeVaryingMappedFixedValue;
+	setAverage      off;
+        offset          0;
+        value           $internalField;
     }
 
     _x

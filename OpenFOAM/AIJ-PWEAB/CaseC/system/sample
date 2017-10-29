@@ -14,21 +14,15 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+type sets;
+libs ("libsampling.so");
+
 // Set output format : choice of
 //      xmgr
 //      jplot
 //      gnuplot
 //      raw
 setFormat raw;
-
-// Surface output format. Choice of
-//      null        : suppress output
-//      foamFile    : separate points, faces and values file
-//      dx          : DX scalar or vector format
-//      vtk         : VTK ascii format
-//      raw         : x y z value format for use with e.g. gnuplot 'splot'.
-//      stl         : ascii stl. Does not contain values!
-surfaceFormat raw;
 
 // interpolationScheme. choice of
 //	cell          : use cell-centre value only; constant over cells (default)
@@ -37,14 +31,13 @@ surfaceFormat raw;
 // 1] vertex values determined from neighbouring cell-centre values
 // 2] face values determined using the current face interpolation scheme
 //    for the field (linear, gamma, etc.)
-//interpolationScheme cell;
 interpolationScheme cellPointFace;
 
 // Fields to sample.
 fields
 (
    k
-   magU
+   mag(U)
 );
 
 // Set sampling definition: choice of
@@ -174,7 +167,7 @@ sets
 ( 0.20 -0.05  0.02 )
 ( 0.20 -0.10  0.02 )
 ( 0.20 -0.15  0.02 )
-( 0.20 -0.200001  0.02 ) //occur a error by -0.2 
+( 0.20 -0.20  0.02 )
 ( 0.20 -0.25  0.02 )
 ( 0.20 -0.30  0.02 )
 ( 0.25  0.30  0.02 )
@@ -200,7 +193,5 @@ sets
     }
 
 );
-
-surfaces ();
 
 // *********************************************************************** //

@@ -1,7 +1,7 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.0.x                                 |
+|  \\    /   O peration     | Version:  4.1                                   |
 |   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
@@ -10,17 +10,17 @@ FoamFile
     version     2.0;
     format      ascii;
     class       dictionary;
-    object      RASProperties;
+    object      topoSetDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-RASModel            kEpsilon;
-//RASModel            NonlinearKEShih;
-//RASModel            realizableKE;
-//RASModel            RNGkEpsilon;
-
-turbulence          on;
-
-printCoeffs         on;
+actions
+(
+    {
+        name    building;
+        type    cellSet;
+        action  invert;
+    }
+);
 
 // ************************************************************************* //

@@ -9,20 +9,49 @@ FoamFile
 {
     version     2.0;
     format      ascii;
-    class       dictionary;
-    object      changeDictionaryDict;
+    class       volScalarField;
+    object      k;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-boundary
+dimensions      [0 2 -2 0 0 0 0];
+
+internalField   uniform 0.079;
+
+boundaryField
 {
-    z_
+    x_
     {
-        type            wall;
+        type            timeVaryingMappedFixedValue;
+	setAverage      off;
+        offset          0;
+        value           $internalField;
     }
-    oldInternalFaces
+
+    _x
     {
-        type            wall;
+        type            zeroGradient;
+    }
+
+    y_
+    {
+        type slip;
+    }
+
+    _y
+    {
+        type slip;
+    }
+
+    _z
+    {
+        type slip;
+    }
+
+    ".*"
+    {
+        type            kqRWallFunction;
+        value           uniform 0.079;
     }
 }
 
