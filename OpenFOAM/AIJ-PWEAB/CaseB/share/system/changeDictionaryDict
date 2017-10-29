@@ -1,8 +1,8 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  1.7.1                                 |
-|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|  \\    /   O peration     | Version:  4.1                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 FoamFile
@@ -14,24 +14,20 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dictionaryReplacement
+boundary
 {
-    boundary
+    symmetry
     {
-        symmetry
-        {
-            type            symmetryPlane;
-        }
-        ground
-        {
-            type            wall;
-        }
-        building
-        {
-            type            wall;
-        }
+        type            symmetryPlane;
     }
-
+    ground
+    {
+        type            wall;
+    }
+    building
+    {
+        type            wall;
+    }
 }
 
 // ************************************************************************* //

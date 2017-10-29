@@ -2,11 +2,9 @@ Reproduction of benchmark test case B formulated in AIJ guidelines for
 practical applications of CFD to pedestrian wind environment around
 buildings
 
-Creator: Takuya OSHIMA <oshima@eng.niigata-u.ac.jp>
-Date: 27/Nov/2010
-Creator: Masashi IMANO <masashi.imano@gmail.com>
-Date: 10/Mar/2014
-Supported OpenFOAM version: 2.2.x
+Creator: Takuya OSHIMA <oshima@eng.niigata-u.ac.jp>, Date: 27/Nov/2010
+Modifier: Masashi IMANO <masashi.imano@gmail.com>
+Supported OpenFOAM version: 4.0, 4.1
 
 Disclaimer:
 OPENFOAM(R) is a registered trade mark of OpenCFD Limited, the
@@ -29,9 +27,7 @@ share           Sharable materials (mesh coordinates, wind-tunnel data etc.).
 2. Prerequisites
 ================
 
-Python, Gnuplot and the setDiscreteFields utility are required in
-order to run the case. SetDiscreteFields is available at:
-http://openfoamwiki.net/index.php/Contrib_setDiscreteFields
+Python, Gnuplot utility are required in order to run the case.
 
 
 3. What is this?

@@ -1,21 +1,21 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  dev                                   |
-|   \\  /    A nd           | Web:      http://www.openfoam.org               |
+|  \\    /   O peration     | Version:  4.1                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
-
 FoamFile
 {
-    version         2.0;
-    format          ascii;
-    class           dictionary;
-    location        system;
-    object          sampleDict;
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      sampleDict;
 }
-
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+type sets;
+libs ("libsampling.so");
 
 // Set output format : choice of
 //      xmgr
@@ -48,7 +48,6 @@ fields
  U
  k
 );
-
 
 // Set sampling definition: choice of
 //      uniform             evenly distributed points on line
@@ -325,7 +324,5 @@ sets
 );
 
 surfaces ();
-
-
 
 // *********************************************************************** //

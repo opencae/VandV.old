@@ -14,8 +14,8 @@
 #    You should have received a copy of the GNU General Public License
 #    along with caseB.  If not, see <http://www.gnu.org/licenses/>.
 
-# Copyright (c) 2010-2014 Takuya OSHIMA <oshima@eng.niigata-u.ac.jp>.
-# Copyright (c) 2014 Masashi IMANO <masashi.imano@gmail.com>.
+# Copyright (c) 2010-2017 Takuya OSHIMA <oshima@eng.niigata-u.ac.jp>.
+# Copyright (c) 2014-2017 Masashi IMANO <masashi.imano@gmail.com>.
 
 (cd share;./Allclean)
 rm -rf `ls -d */ |grep -v share/`

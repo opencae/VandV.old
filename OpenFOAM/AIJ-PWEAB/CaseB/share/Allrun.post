@@ -14,25 +14,17 @@
 #    You should have received a copy of the GNU General Public License
 #    along with caseB.  If not, see <http://www.gnu.org/licenses/>.
 
-# create structured base mesh
-python makeStructuredGridMesh.py
+# Copyright (c) 2010-2017 Takuya OSHIMA <oshima@eng.niigata-u.ac.jp>.
+# Copyright (c) 2014-2017 Masashi Imano <masashi.imano@gmail.com>.
 
-# remove cells inside block
-topoSet
-subsetMesh boxes -overwrite
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
 
-# change boundary names to more comprehensive ones
-mv constant/polyMesh/boundary  constant/polyMesh/boundary.old
-sed \
-    -e "s/x_/inlet/" \
-    -e "s/_x/outlet/" \
-    -e "s/y_/symmetry/" \
-    -e "s/_y/lateral/" \
-    -e "s/z_/ground/" \
-    -e "s/_z/sky/" \
-    -e "s/oldInternalFaces/building/" \
-    constant/polyMesh/boundary.old > constant/polyMesh/boundary
-rm -f constant/polyMesh/boundary.old
+model="${PWD##*/}"
+share="../share"
 
-# change boundary types to appropriate ones
-changeDictionary
+# Sample
+runApplication postProcess -func sample -latestTime
+
+# Postprocessing
+runApplication -s postprocess python $share/postprocess.py $model

@@ -28,7 +28,7 @@ if (len(argv) != 2):
 
 model = argv[1]
 #setsDir = 'sets.' + model
-setsDir = 'postProcessing/sets'
+setsDir = 'postProcessing/sample'
 measuredDir = '../share/measured'
 
 def isnumber(x):

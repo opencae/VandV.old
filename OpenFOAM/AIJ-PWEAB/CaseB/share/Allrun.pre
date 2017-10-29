@@ -17,26 +17,32 @@
 # Copyright (c) 2010-2017 Takuya OSHIMA <oshima@eng.niigata-u.ac.jp>.
 # Copyright (c) 2014-2017 Masashi Imano <masashi.imano@gmail.com>.
 
-model="${PWD##*/}"
-share="../share"
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
 
-# Check if sharable resources has already been created
-if [ ! -d 0 ]
-then
-    ( cd $share; ./Allrun.pre )
-fi
+# create structured base mesh
+runApplication python ../../../bin/makeStructuredGridMesh.py
 
-# Residual monitor
-./Allrun.monitor &
+# remove cells inside block
+runApplication topoSet
+runApplication subsetMesh boxes -overwrite
 
-# Run
-./Allrun.solve
+# change boundary names to more comprehensive ones
+mv constant/polyMesh/boundary  constant/polyMesh/boundary.old
+sed \
+    -e "s/x_/inlet/" \
+    -e "s/_x/outlet/" \
+    -e "s/y_/symmetry/" \
+    -e "s/_y/lateral/" \
+    -e "s/z_/ground/" \
+    -e "s/_z/sky/" \
+    -e "s/oldInternalFaces/building/" \
+    constant/polyMesh/boundary.old > constant/polyMesh/boundary
+rm -f constant/polyMesh/boundary.old
 
-# Postprocessing
-./Allrun.post
+# change boundary types to appropriate ones
+runApplication changeDictionary
 
-# Plot
-./Allrun.plot
-
-# Create stab for the ParaView-reader
-touch $model.foam
+# Copy uninitialized fields to 0
+rm -rf 0 > /dev/null 2>&1
+cp -pr org0 0

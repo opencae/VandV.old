@@ -15,14 +15,18 @@
 #    along with caseB.  If not, see <http://www.gnu.org/licenses/>.
 
 # Copyright (c) 2010-2017 Takuya OSHIMA <oshima@eng.niigata-u.ac.jp>.
-# Copyright (c) 2014-2017 Masashi IMANO <masashi.imano@gmail.com>.
+# Copyright (c) 2014-2017 Masashi Imano <masashi.imano@gmail.com>.
 
-(cd share;./Allrun.pre $* )
-for model in kEpsilon RNGkEpsilon realizableKE kOmega kOmegaSST ShihQuadraticKE LienCubicKE
-do
-  mkdir $model
-  ( cd $model
-      ln -s ../share/{0,constant,system,All*} .
-      ./Allrun $*
-  )
-done
+# Source tutorial run functions
+. $WM_PROJECT_DIR/bin/tools/RunFunctions
+
+application=`getApplication`
+
+if [ "x$1" = "x-parallel" ]
+then
+    runApplication decomposePar
+    runParallel $application $(getNumberOfProcessors)
+    runApplication reconstructPar
+else
+    runApplication $application
+fi
