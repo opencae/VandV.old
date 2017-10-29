@@ -8,5 +8,7 @@ cleanCase
 
 rm -f *.{eps,pdf}
 rm -rf 0/
+rm -rf constant/polyMesh
+rm -f system/blockMeshDict constant/boundary
 
 # ----------------------------------------------------------------- end-of-file

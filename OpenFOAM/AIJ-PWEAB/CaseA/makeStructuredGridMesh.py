@@ -1,338 +1,99 @@
-#!/usr/bin/python
+#!/usr/bin/env python2
 import commands
-nx = 0
-ny = 0
-nz = 0
-xfile = open('x.dat','r')
-for xline in xfile:
-   nx = nx + 1
-yfile = open('y.dat','r')
-for yline in yfile:
-   ny = ny + 1
-zfile = open('z.dat','r')
-for zline in zfile:
-   nz = nz + 1
-nxny = nx * ny
-nynz = ny * nz
-nxnz = nx * nz
-all = nx * ny * nz
 
-print "set points"
-pointFile = open('constant/polyMesh/points','w')
-pointFile.write("FoamFile\n{ \n\
-    version \t 2.0;\n\
-    format \t ascii;\n\n\
-    root \t \"\";\n\
-    case \t \"\";\n\
-    instance \t \"constant\";\n\
-    local \t \"polyMesh\";\n\n\
-    class \t vectorField;\n\
-    object \t points;\n\
-}\n")
+print "read x.dat, y.dat, z.dat"
+
+x = map(float, open('x.dat','r').read().split())
+y = map(float, open('y.dat','r').read().split())
+z = map(float, open('z.dat','r').read().split())
+
+print "x : ",x
+print "y : ",y
+print "z : ",z
+
+nx=len(x)
+ny=len(y)
+nz=len(z)
+
+print "nx : ",nx
+print "ny : ",ny
+print "nz : ",nz
+
+print "make blockMeshDict"
+
+file = open('system/blockMeshDict','w')
+file.write("\
+FoamFile\n\
+{\n\
+    version     2.0;\n\
+    format      ascii;\n\
+    class       dictionary;\n\
+    object      blockMeshDict;\n\
+}\n\
+convertToMeters 1;\n\
+vertices\n\
+(\n\
+        (0 0 0) // 0\n\
+        (1 0 0) // 1\n\
+        (1 1 0) // 2\n\
+        (0 1 0) // 3\n\
+        (0 0 1) // 4\n\
+        (1 0 1) // 5\n\
+        (1 1 1) // 6\n\
+        (0 1 1) // 7\n\
+);\n\
+blocks\n\
+(\n\
+    hex (0 1 2 3 4 5 6 7) ("+repr(nx-1)+" "+repr(ny-1)+" "+repr(nz-1)+") simpleGrading (1 1 1)\n\
+);\n\
+patches\n\
+(\n\
+    patch x_\n\
+       ((0 4 7 3))\n\
+    patch _x\n\
+       ((2 6 5 1))\n\
+    patch y_\n\
+       ((1 5 4 0))\n\
+    patch _y\n\
+       ((3 7 6 2))\n\
+    patch z_\n\
+       ((0 3 2 1))\n\
+    patch _z\n\
+       ((4 5 6 7))\n\
+);\n\
+mergePatchPairs ();\n\
+")
+file.close()
+
+print "run blockMesh"
+commands.getstatusoutput('rm -rf constant/polyMesh/*')
+ret=commands.getstatusoutput('blockMesh -noFunctionObjects 2>&1 > log.blockMesh')
+
+if ret[0]!=0:
+   print "Error in excuting blockMesh."
+   exit(ret[0])
 
 #points
+print "replace points"
+file=open('constant/polyMesh/points','w')
+file.write("\
+FoamFile\n\
+{\n\
+    version     2.0;\n\
+    format      ascii;\n\
+    class       vectorField;\n\
+    location    \"constant/polyMesh\";\n\
+    object      points;\n\
+}\n\
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //\n\
+")
+file.write("\n"+str(nx*ny*nz)+"\n(\n")
+for k in range(nz): 
+   for j in range(ny): 
+      for i in range(nx): 
+         vertices="("+str(x[i])+" "+str(y[j])+" "+str(z[k])+")\n"
+         file.write(vertices)
+file.write( ")\n" )
+file.close()
 
-pointFile.write( repr(all)+"\n(\n" )
-k=1
-count=0
-zfile.seek(0)
-while k <= nz :
-   z = zfile.readline()
-   j = 1
-   yfile.seek(0)
-   while j <= ny :
-      y = yfile.readline()
-      i = 1
-      xfile.seek(0)
-      while i <= nx :
-         x = xfile.readline()
-         vertices="( "+x[:-1]+" "+y[:-1]+" "+z[:-1]+" )\n"
-         pointFile.write(vertices)
-         i = i + 1
-         count = count + 1
-      j = j + 1
-   k = k + 1
-pointFile.write( ")\n" )
-pointFile.close()
-print "end points"
-
-print "set face - owner - neigubour"
-allface = 3*all -2*(nxny+nynz+nxnz) + nx + ny +nz
-
-faceFile = open('constant/polyMesh/faces','w')
-faceFile.write("FoamFile\n{ \n\
-    version \t 2.0;\n\
-    format \t ascii;\n\n\
-    root \t \"\";\n\
-    case \t \"\";\n\
-    instance \t \"constant\";\n\
-    local \t \"polyMesh\";\n\n\
-    class \t faceList;\n\
-    object \t faces;\n\
-}\n")
-ownerFile = open('constant/polyMesh/owner','w')
-ownerFile.write("FoamFile\n{ \n\
-    version \t 2.0;\n\
-    format \t ascii;\n\n\
-    root \t \"\";\n\
-    case \t \"\";\n\
-    instance \t \"constant\";\n\
-    local \t \"polyMesh\";\n\n\
-    class \t labelList;\n\n\
-    note \t \"nCells:"+repr((nx-1)*(ny-1)*(nz-1)) \
-                +" nActiveFaces:"+repr(allface) \
-                +" nActivePoints:"+repr(all)+"\";\n\n\
-    object \t owner;\n\
-}\n")
-neighbourFile = open('constant/polyMesh/neighbour','w')
-neighbourFile.write("FoamFile\n{ \n\
-    version \t 2.0;\n\
-    format \t ascii;\n\n\
-    root \t \"\";\n\
-    case \t \"\";\n\
-    instance \t \"constant\";\n\
-    local \t \"polyMesh\";\n\n\
-    class \t labelList;\n\n\
-    note \t \"nCells:"+repr((nx-1)*(ny-1)*(nz-1)) \
-                +" nActiveFaces:"+repr(allface) \
-                +" nActivePoints:"+repr(all)+"\";\n\n\
-    object \t neighbour;\n\
-}\n")
-
-#faces
-faceFile.write( repr(allface)+"\n(\n" )
-ownerFile.write( repr(allface)+"\n(\n" )
-neighbourFile.write( repr(allface)+"\n(\n" )
-#faces x+
-k = 1
-while k < nz :
-   j = 1
-   while j < ny :
-      i = 2
-      while i < nx :
-         p1 = nxny * ( k - 1 ) + nx * ( j - 1 ) + i -1
-         p2 = nxny * ( k - 1 ) + nx * j + i -1
-         p3 = nxny * k + nx * j + i -1
-         p4 = nxny * k + nx * ( j - 1 ) + i -1
-
-
-         faceFile.write( "4("+repr(p1)+" "+repr(p2)+" "+repr(p3)+" "+repr(p4)+")\n" )
-
-         p = (nx-1)*(ny-1) * ( k - 1 ) + (nx-1) * ( j - 1 ) + i -2 
-         ownerFile.write( repr(p)+"\n" )
-         np = (nx-1)*(ny-1) * ( k - 1 ) + (nx-1) * ( j - 1 ) + i -1 
-         neighbourFile.write( repr(np)+"\n" )
-
-         i = i + 1
-      j = j+ 1
-   k = k + 1
-
-#faces y+
-k = 1
-while k < nz :
-   j = 2
-   while j < ny :
-      i = 1
-      while i < nx :
-         p1 = nxny * ( k - 1 ) + nx * ( j - 1 ) + i -1
-         p2 = nxny * k + nx * ( j - 1 ) + i -1
-         p3 = nxny * k + nx * ( j - 1 ) + i
-         p4 = nxny * ( k - 1 ) + nx * ( j - 1 ) + i
-
-
-         faceFile.write( "4("+repr(p1)+" "+repr(p2)+" "+repr(p3)+" "+repr(p4)+")\n" )
-         p = (nx-1)*(ny-1) * (k - 1) + (nx-1) * ( j - 2 ) + i -1
-         ownerFile.write( repr(p)+"\n" )
-         np= (nx-1)*(ny-1) * (k - 1) + (nx-1) * ( j - 1 ) + i -1         
-         neighbourFile.write( repr(np)+"\n" )
-
-         i = i + 1
-      j = j+ 1
-   k = k + 1
-
-#faces z+
-k = 2
-while k < nz :
-   j = 1
-   while j < ny :
-      i = 1
-      while i < nx :
-         p1 = nxny * ( k - 1 ) + nx * ( j - 1 ) + i -1
-         p2 = nxny * ( k - 1 ) + nx * ( j - 1 ) + i
-         p3 = nxny * ( k - 1 ) + nx * j + i
-         p4 = nxny * ( k - 1 ) + nx * j + i -1
-
-
-         faceFile.write( "4("+repr(p1)+" "+repr(p2)+" "+repr(p3)+" "+repr(p4)+")\n" )
-         p = (nx-1)*(ny-1) * (k - 2) + (nx-1) * ( j - 1 ) + i -1
-         ownerFile.write( repr(p)+"\n" )
-         np= (nx-1)*(ny-1) * (k - 1) + (nx-1) * ( j - 1 ) + i -1
-         neighbourFile.write( repr(np)+"\n" )
-
-         i = i + 1
-      j = j+ 1
-   k = k + 1
-
-
-#patches
-np = -1
-#patches x-
-k = 1
-while k < nz :
-   j = 1
-   while j < ny :
-      p1 = nxny * (k -1) + nx * (j -1)
-      p2 = nxny * k + nx * (j -1)
-      p3 = nxny * k + nx * j
-      p4 = nxny * (k -1) + nx * j
-      faceFile.write( "4("+repr(p1)+" "+repr(p2)+" "+repr(p3)+" "+repr(p4)+")\n" )
-
-      p= (nx-1)*(ny-1) * (k - 1) + (nx-1) * ( j - 1 ) 
-      ownerFile.write( repr(p)+"\n" )
-      neighbourFile.write( repr(np)+"\n" )
-
-      j = j+ 1
-   k = k + 1
-
-#patches x+
-k = 1
-while k < nz :
-   j = 1
-   while j < ny :
-      p1 = nxny * (k -1) + nx * j -1
-      p2 = nxny * (k -1) + nx * (j + 1) -1
-      p3 = nxny * k + nx * (j +1) -1
-      p4 = nxny * k + nx * j -1
-      faceFile.write( "4("+repr(p1)+" "+repr(p2)+" "+repr(p3)+" "+repr(p4)+")\n" )
-
-      p = (nx-1)*(ny-1) * (k -1) + (nx-1) * j -1
-      ownerFile.write( repr(p)+"\n" )
-      neighbourFile.write( repr(np)+"\n" )
-
-      j = j+ 1
-   k = k + 1
-
-#patches y-
-k = 1
-while k < nz :
-   i = 1
-   while i < nx :
-      p1 = nxny * (k -1) + (i -1)
-      p2 = nxny * (k -1) + i
-      p3 = nxny * k + i
-      p4 = nxny * k + (i -1)
-      faceFile.write( "4("+repr(p1)+" "+repr(p2)+" "+repr(p3)+" "+repr(p4)+")\n" )
-
-      p = (nx-1)*(ny-1) * (k -1) + (i -1)
-      ownerFile.write( repr(p)+"\n" )
-      neighbourFile.write( repr(np)+"\n" )
-
-      i = i+ 1
-   k = k + 1
-
-#patches y+
-k = 1
-while k < nz :
-   i = 1
-   while i < nx :
-      p1 = nxny * k -nx + (i -1)
-      p2 = nxny *( k + 1) -nx + (i -1)
-      p3 = nxny * (k + 1) -nx + i
-      p4 = nxny * k -nx + i
-      faceFile.write( "4("+repr(p1)+" "+repr(p2)+" "+repr(p3)+" "+repr(p4)+")\n" )
-
-      p = (nx-1)*(ny-1) * k -(nx-1) + (i -1)
-      ownerFile.write( repr(p)+"\n" )
-      neighbourFile.write( repr(np)+"\n" )
-
-      i = i+ 1
-   k = k + 1
-
-#patches z-
-j = 1
-while j < ny :
-   i = 1
-   while i < nx :
-      p1 = nx * ( j - 1 ) + i -1
-      p2 = nx * j + i -1
-      p3 = nx * j + i 
-      p4 = nx * ( j - 1 ) + i 
-      faceFile.write( "4("+repr(p1)+" "+repr(p2)+" "+repr(p3)+" "+repr(p4)+")\n" )
-
-      p = (nx-1) * ( j - 1 ) + i -1
-      ownerFile.write( repr(p)+"\n" )
-      neighbourFile.write( repr(np)+"\n" )
-
-      i = i+ 1
-   j = j + 1
-
-#patches z+
-j = 1
-while j < ny :
-   i = 1 
-   while i < nx :
-      p1 = nxny * (nz -1) + nx * ( j - 1 ) + i -1
-      p2 = nxny * (nz -1) + nx * ( j - 1 ) + i 
-      p3 = nxny * (nz -1) + nx * j + i 
-      p4 = nxny * (nz -1) + nx * j + i -1
-      faceFile.write( "4("+repr(p1)+" "+repr(p2)+" "+repr(p3)+" "+repr(p4)+")\n" )
-
-      p = (nx-1)*(ny-1)*(nz -2) + (nx-1) * ( j - 1 ) + i -1
-      ownerFile.write( repr(p)+"\n" )
-      neighbourFile.write( repr(np)+"\n" )
-
-      i = i+ 1
-   j = j + 1
-faceFile.write( ")\n" )
-ownerFile.write( ")\n" )
-neighbourFile.write( ")\n" )
-
-faceFile.close()
-ownerFile.close()
-neighbourFile.close()
-print "end face - owner - neigubour"
-print "set boundary"
-##boundary
-boundaryFile = open('constant/polyMesh/boundary','w')
-boundaryFile.write("FoamFile\n{ \n\
-    version \t 2.0;\n\
-    format \t ascii;\n\n\
-    root \t \"\";\n\
-    case \t \"\";\n\
-    instance \t \"constant\";\n\
-    local \t \"polyMesh\";\n\n\
-    class \t polyBoundaryMesh;\n\
-    object \t boundary;\n\
-}\n")
-#faces
-boundaryFile.write("6\n(\n")
-startFace=(nx-2)*(ny-1)*(nz-1)+(nx-1)*(ny-2)*(nz-1)+(nx-1)*(ny-1)*(nz-2)
-#patches x-
-nfaces=(ny-1)*(nz-1)
-boundaryFile.write( "x_\n{\n\t type patch;\n\t nFaces "+repr(nfaces)+";\n\t startFace "+repr(startFace)+";\n}\n\n" ) 
-#patches x+
-startFace +=  nfaces
-nfaces=(ny-1)*(nz-1)
-boundaryFile.write( "_x\n{\n\t type patch;\n\t nFaces "+repr(nfaces)+";\n\t startFace "+repr(startFace)+";\n}\n\n" )
-#patches y-
-startFace +=  nfaces
-nfaces=(nx-1)*(nz-1)
-boundaryFile.write( "y_\n{\n\t type patch;\n\t nFaces "+repr(nfaces)+";\n\t startFace "+repr(startFace)+";\n}\n\n" )
-#patches y+
-startFace +=  nfaces
-nfaces=(nx-1)*(nz-1)
-boundaryFile.write( "_y\n{\n\t type patch;\n\t nFaces "+repr(nfaces)+";\n\t startFace "+repr(startFace)+";\n}\n\n" )
-#patches z-
-startFace +=  nfaces
-nfaces=(nx-1)*(ny-1)
-boundaryFile.write( "z_\n{\n\t type patch;\n\t nFaces "+repr(nfaces)+";\n\t startFace "+repr(startFace)+";\n}\n\n" )
-#patches z+
-startFace +=  nfaces
-nfaces=(nx-1)*(ny-1)
-boundaryFile.write( "_z\n{\n\t type patch;\n\t nFaces "+repr(nfaces)+";\n\t startFace "+repr(startFace)+";\n}\n\n" )
-boundaryFile.write(")\n")
-
-boundaryFile.close()
-print "make Mesh end"
-
-print "end"
+print "End"

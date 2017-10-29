@@ -2,7 +2,7 @@
 ## OpenFOAMによる市街地風環境予測のための流体数値解析ガイドブックにおける2:1:1角柱周辺流れのベンチマークテストケース(Case A)の再現
 
 - 作成: 今野 雅 <masashi.imano@gmail.com>
-- 実行OpenFOAMバージョン: 4.x
+- 実行OpenFOAMバージョン: 4.0, 4.1
 
 ### 概要
 市街地風環境予測のための流体数値解析ガイドブック -ガイドラインと検証用
@@ -40,6 +40,12 @@
 
 ```
 ./Allrun
+```
+
+以下のように，mオプションを付けて実行すると，残差のモニタープロット付きで実行する．
+
+```
+./Allrun -m
 ```
 
 ### 手動実行
@@ -223,6 +229,12 @@ evince *.eps
 convert -density 300 profileU.eps profilek.eps residual.eps CaseA.pdf
 ```
 
+evinceなどのPDF形式が閲覧できるビューワーで閲覧する．
+
+```
+evince *.eps
+```
+
 #### ケースの初期化
 
 解析結果，ログファイル，サンプリング結果，プロットファイルなどを全て消去して，ケースの初期化を行うには以下のようにする．
@@ -238,7 +250,7 @@ convert -density 300 profileU.eps profilek.eps residual.eps CaseA.pdf
 ## Reproduction of benchmark test case A formulated in AIJ guidelines for practical applications of CFD to pedestrian wind environment around buildings
 
 - Creator: Masashi IMANO <masashi.imano@gmail.com>
-- Supported OpenFOAM version: 4.x
+- Supported OpenFOAM version: 4.0, 4.1
 
 ### Prerequisites
 

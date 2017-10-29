@@ -3,7 +3,7 @@
 . $WM_PROJECT_DIR/bin/tools/RunFunctions
 
 # create structured base mesh
-python makeStructuredGridMesh.py
+runApplication ./makeStructuredGridMesh.py
 
 # remove cells inside block
 mkdir constant/polyMesh/sets
