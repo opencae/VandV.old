@@ -1,0 +1,70 @@
+Reproduction of benchmark test case D formulated in AIJ guidelines for
+practical applications of CFD to pedestrian wind environment around
+buildings
+
+Creator: Masashi IMANO <masashi.imano@gmail.com>
+Date: 02/Apr/2012
+Supported OpenFOAM version: 2.0, 2.1
+
+Disclaimer:
+OPENFOAM(R) is a registered trade mark of SGI Corporation,
+the producer of the OpenFOAM software and owner of the OPENFOAM(R) trade marks.
+This offering is not approved or endorsed by SGI Corporation.
+
+1. Manifest
+===========
+
+README          This file.
+Allrun          The driver script to run all sub-cases.
+Allclean        The driver script to clean up all sub-cases.
+*deg            Sub-case that solves the problem under wind direction
+                of that.
+mesh            Directory where the mesh will be generated.
+share           Sharable materials
+
+2. Prerequisites
+================
+
+Convert, gnuplot and the setDiscreteFields utility are required in
+order to run the case. setDiscreteFields is available at:
+http://openfoamwiki.net/index.php/Contrib_setDiscreteFields
+
+3. What is this?
+================
+
+This case solves benchmark test case D defined in AIJ guidelines for
+practical applications of CFD to pedestrian wind environment around
+buildings [1] following the benchmark procedure.
+
+4. Running the case
+===================
+
+In order to run the case:
+
+* Type either ./Allrun or ./Allrun -parallel for serial or 4 processor
+  parallel run. This script will automatically make mesh in mesh
+  directory and perform calculations with three inflow wind directions
+  in corresponding directories, i.e. 0deg, 22.5deg and 45deg.
+
+* After the run, you will find plot.pdf in *deg directories.
+  Thesefigures compare the OpenFOAM results with those of a wind
+  tunnel test[2].
+
+* Type ./Allclean to clean up the case directory and reset to the
+  initial state.
+
+5. References
+=============
+
+[1] Architectural Institute of Japan, Guidebook for Practical
+Applications of CFD to Pedestrian Wind Environment around Buildings,
+2007.
+URL: http://www.aij.or.jp/jpn/publish/cfdguide/index_e.htm
+
+[2] Yoshie, R., Mochida, A., Tominaga, T., Kataoka, H., Yoshikawa, M.,
+Cross Comparisons of CFD Prediction for Wind Environment at Pedestrian
+Level around Buildings. Part 1 Comparison of Results for Flow-field
+around a High-rise Building Located in Surrounding City Blocks.
+The Sixth Asia-Pacific Conference on Wind Engineering (APCWE-VI)
+Seoul, Korea, September 12-14, 2005
+URL: http://www.aij.or.jp/jpn/publish/cfdguide/C05_4.pdf

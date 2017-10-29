@@ -1,0 +1,21 @@
+#!/bin/sh
+
+if [ ! -f constant/polyMesh/boundary ]
+then
+  (cd ../mesh
+   ./Allrun
+  )
+fi
+
+make init
+
+if [ "x$1" = "x-parallel" ]
+then
+    make de
+    make pfgrun
+    make re
+else
+    make fgrun
+fi
+
+make plot

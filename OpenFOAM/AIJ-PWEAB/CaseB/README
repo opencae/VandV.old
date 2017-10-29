@@ -1,0 +1,87 @@
+Reproduction of benchmark test case B formulated in AIJ guidelines for
+practical applications of CFD to pedestrian wind environment around
+buildings
+
+Creator: Takuya OSHIMA <oshima@eng.niigata-u.ac.jp>
+Date: 27/Nov/2010
+Creator: Masashi IMANO <masashi.imano@gmail.com>
+Date: 10/Mar/2014
+Supported OpenFOAM version: 2.2.x
+
+Disclaimer:
+OPENFOAM(R) is a registered trade mark of OpenCFD Limited, the
+producer of the OpenFOAM software and owner of the OPENFOAM(R) and
+OpenCFD(R) trade marks. This offering is not approved or endorsed by
+OpenCFD Limited.
+
+
+1. Manifest
+===========
+
+See LICENSE.GPL2 for full licensing terms of the package.
+
+README          This file.
+Allrun          The driver script to run all sub-cases.
+Allclean        The driver script to clean up all sub-cases.
+share           Sharable materials (mesh coordinates, wind-tunnel data etc.).
+
+
+2. Prerequisites
+================
+
+Python, Gnuplot and the setDiscreteFields utility are required in
+order to run the case. SetDiscreteFields is available at:
+http://openfoamwiki.net/index.php/Contrib_setDiscreteFields
+
+
+3. What is this?
+================
+
+The case solves benchmark test case B formulated in AIJ guidelines for
+practical applications of CFD to pedestrian wind environment around
+buildings [1] following the benchmark procedure, using several RANS models.
+The summary of the solutions are presented in the reference [2] along with
+solutions of other test cases of the guideline.
+
+As the case is a collection of steady state RANS simulations, the
+computational domain is cut in half at the symmetry plane (the y = 0
+plane) where the symmetryPlane boundary condition is applied.
+
+
+4. Running the case
+===================
+
+The sub-case using each RANS model has distinct subdirectory with the
+RANS model name. Running either ./Allrun or ./Allrun -parallel under
+the top directory allows the sub-cases to be run all at once in serial
+or in 4 processor parallel respectively. Each sub-case can be run
+individually as well by running the same commands under each sub-case
+directory.
+
+After the run, you will find horizontal_U_<RANSModel>.eps (where
+<RANSModel> is the name of the RANS models) which compares the
+OpenFOAM results with those of a wind tunnel test in each sub-case
+directory. The figure will be plotted with the measuring point numbers
+in x-axis reordered so that it will be compatible with Fig. 2-3-17 of
+the reference [1]. Likewise, you will also find
+verticalProfile_[Uk]_<RANSModel>.eps which plot vertical profiles of
+velocity and turbulent kinetic energy. The formats of the figures are
+compatible with Figs. 2-3-7 -- 2-3-14 of the reference [1].
+
+Run ./Allclean under the top directory to clean up everything and
+reset to the initial state, or run the same command under each case
+subdirectory to clean individually.
+
+
+5. References
+=============
+
+[1] Architectural Institute of Japan. Guidebook for Practical
+Applications of CFD to Pedestrian Wind Environment around Buildings,
+2007, http://www.aij.or.jp/jpn/publish/cfdguide/index_e.htm.
+
+[2] (IN JAPANESE) Masashi Imano, Takuya Oshima, Takamasa Hasama,
+Takahiro Shibata and Shinya Ogata. CFD prediction of pedestrian wind
+environment around buildings using open source CFD toolkit OpenFOAM,
+Proceedings of the Japan Society of Fluid Mechanics CFD Symposium
+2010, D5-6, 2010.

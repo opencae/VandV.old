@@ -1,0 +1,173 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.6                                   |
+|   \\  /    A nd           | Web:      http://www.OpenFOAM.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changeDictionaryDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+    U
+    {
+        internalField   uniform (0 0 0);
+
+        boundaryField
+        {
+            x_
+           {
+               type            zeroGradient;
+           }
+           y_
+           {
+               type            slip;
+           }
+           _y
+           {
+               type            slip;
+           }
+           z_
+           {
+               type            fixedValue;
+               value           uniform (0 0 0);
+           }
+           _z
+           {
+               type            slip;
+           }
+           targetBuilding_buildingObjects
+           {
+               type            fixedValue;
+               value           uniform (0 0 0);
+           }
+        }
+    }
+
+    k
+    {
+        internalField   uniform 0.1;
+
+        boundaryField
+        {
+           x_
+           {
+               type            zeroGradient;
+           }
+           y_
+           {
+               type            slip;
+           }
+           _y
+           {
+               type            slip;
+           }
+           z_
+           {
+               type            kqRWallFunction;
+               value           uniform 0.1;
+           }
+           _z
+           {
+               type            slip;
+           }
+           targetBuilding_buildingObjects
+           {
+               type            kqRWallFunction;
+               value           uniform 0.1;
+           }
+
+        }
+    }
+
+    epsilon
+    {
+        internalField   uniform 0.01;
+
+        boundaryField
+        {
+           x_
+           {
+               type            zeroGradient;
+           }
+           y_
+           {
+               type            slip;
+           }
+           _y
+           {
+               type            slip;
+           }
+           z_
+           {
+               type            epsilonWallFunction;
+               Cmu             0.09;
+               kappa           0.41;
+               E               9.8;
+               value           uniform 0.01;
+           }
+           _z
+           {
+               type            slip;
+           }
+           targetBuilding_buildingObjects
+           {
+               type            epsilonWallFunction;
+               Cmu             0.09;
+               kappa           0.41;
+               E               9.8;
+               value           uniform 0.01;
+           }
+
+        }
+    }
+
+    p
+    {
+        internalField   uniform 0;
+
+        boundaryField
+        {
+           x_
+           {
+               type            fixedValue;
+               value           uniform 0;
+           }
+           _x
+           {
+               type            zeroGradient;
+           }
+           y_
+           {
+               type            slip;
+           }
+           _y
+           {
+               type            slip;
+           }
+           z_
+           {
+               type            zeroGradient;
+           }
+           _z
+           {
+               type            slip;
+           }
+           targetBuilding_buildingObjects
+           {
+               type            zeroGradient;
+           }
+
+        }
+    }
+
+}
+
+// ************************************************************************* //

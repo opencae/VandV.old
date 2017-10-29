@@ -1,0 +1,75 @@
+Reproduction of benchmark test case E formulated in AIJ guidelines for
+practical applications of CFD to pedestrian wind environment around
+buildings
+
+Creator: Masashi IMANO <masashi.imano@gmail.com>
+Date: 25/Dec/2011
+Supported OpenFOAM version: 2.0, 2.1
+
+Disclaimer:
+OPENFOAM(R) is a registered trade mark of SGI Corporation,
+the producer of the OpenFOAM software and owner of the OPENFOAM(R) trade marks.
+This offering is not approved or endorsed by SGI Corporation.
+
+1. Manifest
+===========
+
+README          This file.
+Allrun          The driver script to run all sub-cases.
+Allclean        The driver script to clean up all sub-cases.
+NNE             Sub-case that solves the problem under wind direction NNE.
+W               Sub-case that solves the problem under wind direction W.
+mesh            Directory where the mesh will be generated.
+share           Sharable materials
+
+2. Prerequisites
+================
+
+Gnuplot and the setDiscreteFields utility are required in
+order to run the case. setDiscreteFields is available at:
+http://openfoamwiki.net/index.php/Contrib_setDiscreteFields
+
+3. What is this?
+================
+
+This case solves benchmark test case E defined in AIJ guidelines for
+practical applications of CFD to pedestrian wind environment around
+buildings [1] following the benchmark procedure.
+
+4. Running the case
+===================
+
+In order to run the case:
+
+* Type either ./Allrun or ./Allrun -parallel for serial or 4 processor
+  parallel run. This script will automatically make mesh in mesh
+  directory and perform calculations with two inflow wind directions
+  in corresponding directories, i.e. NNE and W.
+
+* After the run, you will find velocityThermistorWithPlotOrder.eps and
+  velocityWithPlotOrder.eps in NNE and W directories. These figures
+  compare the OpenFOAM results with those of a wind tunnel test. These
+  figures will be plotted with the measuring point numbers in x-axis
+  reordered so that it will be almost compatible with Figure 4 of the
+  reference [2]. Please note that point No.47 was excluded in the
+  figures because this point locates inside a building in the mesh
+  which snappyHexMesh utility generates.
+
+* Type ./Allclean to clean up the case directory and reset to the
+  initial state.
+
+5. References
+=============
+
+[1] Architectural Institute of Japan, Guidebook for Practical
+Applications of CFD to Pedestrian Wind Environment around Buildings,
+2007.
+URL: http://www.aij.or.jp/jpn/publish/cfdguide/index_e.htm
+
+[2] Tominaga, Y., Yoshie, R., Mochida, A., Kataoka, H., Harimoto, K., Nozu, T.,
+Cross Comparisons of CFD Prediction for Wind Environment at
+Pedestrian Level around Buildings. Comparison of Results for Fiowfield
+around Building Complex in Actual Urban Area.
+The Sixth Asia-Pacific Conference on Wind Engineering (APCWE-VI)
+Seoul, Korea, September 12-14, 2005.
+URL: http://www.aij.or.jp/jpn/publish/cfdguide/C05_5.pdf

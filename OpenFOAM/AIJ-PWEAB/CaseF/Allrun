@@ -1,0 +1,10 @@
+#!/bin/sh
+
+Cases="mesh S SSE SE ESE E ENE NE NNE N NNW NW WNW W WSW SW SSW"
+
+for case in $Cases
+do
+    (cd $case
+        ./Allrun $*
+     )
+done

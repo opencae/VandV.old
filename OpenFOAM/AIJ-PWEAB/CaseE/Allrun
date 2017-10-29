@@ -1,0 +1,10 @@
+#!/bin/sh
+
+Cases="mesh NNE W"
+
+for case in $Cases
+do
+    (cd $case
+        ./Allrun $1
+     )
+done

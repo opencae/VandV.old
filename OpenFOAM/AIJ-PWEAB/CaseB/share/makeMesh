@@ -1,0 +1,38 @@
+#!/bin/sh
+#    This file is part of caseB.
+#
+#    caseB is free software: you can redistribute it and/or modify it
+#    under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    caseB is distributed in the hope that it will be useful, but
+#    WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+#    General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with caseB.  If not, see <http://www.gnu.org/licenses/>.
+
+# create structured base mesh
+python makeStructuredGridMesh.py
+
+# remove cells inside block
+topoSet
+subsetMesh boxes -overwrite
+
+# change boundary names to more comprehensive ones
+mv constant/polyMesh/boundary  constant/polyMesh/boundary.old
+sed \
+    -e "s/x_/inlet/" \
+    -e "s/_x/outlet/" \
+    -e "s/y_/symmetry/" \
+    -e "s/_y/lateral/" \
+    -e "s/z_/ground/" \
+    -e "s/_z/sky/" \
+    -e "s/oldInternalFaces/building/" \
+    constant/polyMesh/boundary.old > constant/polyMesh/boundary
+rm -f constant/polyMesh/boundary.old
+
+# change boundary types to appropriate ones
+changeDictionary

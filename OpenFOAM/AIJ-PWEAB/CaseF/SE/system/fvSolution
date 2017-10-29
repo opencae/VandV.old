@@ -1,0 +1,89 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.5                                   |
+|   \\  /    A nd           | Web:      http://www.OpenFOAM.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+    p
+    {
+        solver           GAMG;
+        tolerance        1e-6;
+        relTol           0.01;
+        smoother         DIC;
+        cacheAgglomeration true;
+        nCellsInCoarsestLevel 10;
+        agglomerator     faceAreaPair;
+        mergeLevels      1;
+    }
+
+    U
+    {
+        solver           PBiCG;
+        preconditioner   DILU;
+        tolerance        1e-05;
+        relTol           0.1;
+    }
+
+    k
+    {
+        solver           PBiCG;
+        preconditioner   DILU;
+        tolerance        1e-05;
+        relTol           0.1;
+    }
+
+    epsilon
+    {
+        solver           PBiCG;
+        preconditioner   DILU;
+        tolerance        1e-05;
+        relTol           0.1;
+    }
+
+    R
+    {
+        solver           PBiCG;
+        preconditioner   DILU;
+        tolerance        1e-05;
+        relTol           0.1;
+    }
+
+    nuTilda
+    {
+        solver           PBiCG;
+        preconditioner   DILU;
+        tolerance        1e-05;
+        relTol           0.1;
+    }
+
+}
+
+SIMPLE
+{
+    nNonOrthogonalCorrectors 0;
+    convergence 5e-4;
+}
+
+relaxationFactors
+{
+    p               0.3;
+    U               0.5;
+    k               0.25;
+    epsilon         0.25;
+    R               0.6;
+    nuTilda         0.6;
+}
+
+// ************************************************************************* //

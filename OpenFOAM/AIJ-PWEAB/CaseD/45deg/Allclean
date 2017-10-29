@@ -1,0 +1,8 @@
+#!/bin/sh
+# Source tutorial clean functions
+. $WM_PROJECT_DIR/bin/tools/CleanFunctions
+
+cleanTimeDirectories
+cleanSamples
+rm -rf constant/polyMesh 0 processor* logs probes > /dev/null 2>&1
+rm -f nohup.out plot.pdf *.eps *.txt > /dev/null 2>&1

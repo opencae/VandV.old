@@ -1,0 +1,73 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  1.5                                   |
+|   \\  /    A nd           | Web:      http://www.OpenFOAM.org               |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    default steadyState;
+}
+
+gradSchemes
+{
+    default         Gauss linear;
+}
+
+divSchemes
+{
+    default         none;
+    div(phi,U)      bounded Gauss QUICKV;
+    div(phi,k)      bounded Gauss QUICK;
+    div(phi,epsilon) bounded Gauss QUICK;
+    div(phi,omega) bounded Gauss QUICK;
+    div(phi,R)      bounded Gauss QUICK;
+    div(R)          Gauss linear;
+    div(phi,nuTilda) bounded Gauss QUICK;
+    div((nuEff*dev(T(grad(U))))) Gauss linear;
+
+    // for NonlinearKEShih RASModel
+    div(nonlinearStress) Gauss linear;
+}
+
+laplacianSchemes
+{
+    default         none;
+    laplacian(nuEff,U) Gauss linear orthogonal;
+    laplacian((1|A(U)),p) Gauss linear orthogonal;
+    laplacian(DkEff,k) Gauss linear orthogonal;
+    laplacian(DepsilonEff,epsilon) Gauss linear orthogonal;
+    laplacian(DomegaEff,omega) Gauss linear orthogonal;
+    laplacian(DREff,R) Gauss linear orthogonal;
+    laplacian(DnuTildaEff,nuTilda) Gauss linear orthogonal;
+    // for potentialFoam
+    laplacian(1,p) Gauss linear orthogonal;
+}
+
+interpolationSchemes
+{
+    default         linear;
+}
+
+snGradSchemes
+{
+    default         orthogonal;
+}
+
+fluxRequired
+{
+    default         no;
+    p;
+}
+
+// ************************************************************************* //

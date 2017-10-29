@@ -1,0 +1,48 @@
+Reproduction of benchmark test case C formulated in AIJ guidelines for
+practical applications of CFD to pedestrian wind environment around
+buildings
+
+Creator: Masashi IMANO <masashi.imano@gmail.com>
+Date: 25/Dec/2011
+Supported OpenFOAM version: 2.0, 2.1
+
+Disclaimer:
+OPENFOAM(R) is a registered trade mark of SGI Corporation,
+the producer of the OpenFOAM software and owner of the OPENFOAM(R) trade marks.
+This offering is not approved or endorsed by SGI Corporation.
+
+1. Prerequisites
+================
+
+Gnuplot and the setDiscreteFields utility are required in
+order to run the case. setDiscreteFields is available at:
+http://openfoamwiki.net/index.php/Contrib_setDiscreteFields
+
+2. What is this?
+================
+
+This case solves benchmark test case C defined in AIJ guidelines for
+practical applications of CFD to pedestrian wind environment around
+buildings [1] following the benchmark procedure.
+
+3. Running the case
+===================
+
+In order to run the case:
+
+* Type either ./Allrun or ./Allrun -parallel for serial or 4 processor
+  parallel run.
+
+* After the run, you will find plotHorizontalU.png which will compare
+  the OpenFOAM results with those of a wind tunnel test. 
+
+* Type ./Allclean to clean up the case directory and reset to the
+  initial state.
+
+4. References
+=============
+
+[1] Architectural Institute of Japan, Guidebook for Practical
+Applications of CFD to Pedestrian Wind Environment around Buildings,
+2007.
+URL: http://www.aij.or.jp/jpn/publish/cfdguide/index_e.htm

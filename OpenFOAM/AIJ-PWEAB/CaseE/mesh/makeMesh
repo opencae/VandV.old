@@ -1,0 +1,26 @@
+#!/bin/sh
+
+
+rm -rf [0-9]*/
+cp blockMeshDict constant/polyMesh/blockMeshDict
+blockMesh
+
+if [ "x$1" = "x-parallel" ]
+then
+    decomposePar 
+    foamJob -s -p snappyHexMesh -overwrite
+    mv log log.snappyHexMesh
+    reconstructParMesh -latestTime
+    rm -fr constant/polyMesh/*
+    mv 0/polyMesh/* constant/polyMesh/
+    rm -rf 0
+else
+    foamJob -s snappyHexMesh -overwrite
+    mv log log.snappyHexMesh
+fi
+
+rm -f constant/{cellLevel,pointLevel}
+
+checkMesh -constant
+
+renumberMesh -constant -overwrite

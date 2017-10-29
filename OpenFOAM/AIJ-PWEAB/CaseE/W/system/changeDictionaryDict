@@ -1,0 +1,96 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.1.x                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      changeDictionaryDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+dictionaryReplacement
+{
+U
+{
+boundaryField
+{
+x_
+{
+  type            fixedValue;
+  value           uniform (0 0 0);
+}
+y_
+{
+  type            slip;
+}
+_y
+{
+  type            slip;
+}
+}
+}
+k
+{
+boundaryField
+{
+x_
+{
+  type            fixedValue;
+  value           uniform 0;
+}
+y_
+{
+  type            slip;
+}
+_y
+{
+  type            slip;
+}
+}
+}
+epsilon
+{
+boundaryField
+{
+x_
+{
+  type            fixedValue;
+  value           uniform 0;
+}
+y_
+{
+  type            slip;
+}
+_y
+{
+  type            slip;
+}
+}
+}
+p
+{
+boundaryField
+{
+x_
+{
+  type            zeroGradient;
+}
+y_
+{
+  type            slip;
+}
+_y
+{
+  type            slip;
+}
+}
+}
+}
+
+// ************************************************************************* //

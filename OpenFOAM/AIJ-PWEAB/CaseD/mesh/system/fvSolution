@@ -1,0 +1,99 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  2.0.x                                 |
+|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      fvSolution;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+solvers
+{
+p
+{
+    solver          GAMG;
+    tolerance       1e-06;
+    relTol          0.01;
+    smoother        DIC;
+    cacheAgglomeration true;
+    nCellsInCoarsestLevel 10;
+    agglomerator    faceAreaPair;
+    mergeLevels     1;
+}
+
+U
+{
+    solver          PBiCG;
+    preconditioner  DILU;
+    tolerance       1e-06;
+    relTol          0.01;
+}
+
+k
+{
+    solver          PBiCG;
+    preconditioner  DILU;
+    tolerance       1e-06;
+    relTol          0.01;
+}
+
+epsilon
+{
+    solver          PBiCG;
+    preconditioner  DILU;
+    tolerance       1e-06;
+    relTol          0.01;
+}
+
+R
+{
+    solver          PBiCG;
+    preconditioner  DILU;
+    tolerance       1e-06;
+    relTol          0.01;
+}
+
+nuTilda
+{
+    solver          PBiCG;
+    preconditioner  DILU;
+    tolerance       1e-06;
+    relTol          0.01;
+}
+}
+
+potentialFlow
+{
+    nNonOrthogonalCorrectors 1;
+}
+
+SIMPLE
+{
+    nNonOrthogonalCorrectors 1;
+    residualControl
+    {
+        p                1e-4;
+        U                1e-4;
+        "(k|epsilon|omega)" 1e-4;
+    }
+
+}
+
+relaxationFactors
+{
+    p               0.3;
+    U               0.5;
+    k               0.3;
+    epsilon         0.3;
+    R               0.5;
+    nuTilda         0.5;
+}
+
+// ************************************************************************* //

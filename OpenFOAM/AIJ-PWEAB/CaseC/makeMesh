@@ -1,0 +1,13 @@
+#!/bin/sh
+
+# make initial structured grid mesh
+python makeStructuredGridMesh.py
+
+# remove cells inside building
+mkdir constant/polyMesh/sets
+insideCells constant/triSurface/building.stl building
+setSet -constant -batch setSet.batch 
+subsetMesh building -overwrite
+
+# change boundary types to appropriate ones
+changeDictionary

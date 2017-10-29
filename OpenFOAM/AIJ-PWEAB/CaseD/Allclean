@@ -1,0 +1,8 @@
+#!/bin/sh
+
+Cases="mesh 0deg 22.5deg 45deg"
+
+for case in $Cases
+do
+    (cd $case;./Allclean)
+done
