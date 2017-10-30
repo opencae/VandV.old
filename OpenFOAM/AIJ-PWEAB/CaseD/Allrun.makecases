@@ -1,0 +1,16 @@
+#!/bin/sh
+
+for case in *deg
+do
+    (
+	cd $case
+	ln -s ../share/All* .
+	ln -s ../share/plot .
+	for dir in system constant validation
+	do
+	    (cd $dir
+		ln -s ../../share/$dir/* .
+		)
+	done
+     )
+done

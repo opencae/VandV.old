@@ -3,31 +3,30 @@ practical applications of CFD to pedestrian wind environment around
 buildings
 
 Creator: Masashi IMANO <masashi.imano@gmail.com>
-Date: 02/Apr/2012
-Supported OpenFOAM version: 2.0, 2.1
+Supported OpenFOAM version: 4.0, 4.1
 
 Disclaimer:
-OPENFOAM(R) is a registered trade mark of SGI Corporation,
+OPENFOAM(R) is a registered trade mark of ESI Group,
 the producer of the OpenFOAM software and owner of the OPENFOAM(R) trade marks.
-This offering is not approved or endorsed by SGI Corporation.
+This offering is not approved or endorsed by ESI Group.
 
 1. Manifest
 ===========
 
 README          This file.
-Allrun          The driver script to run all sub-cases.
+Allrun          The driver script to make mesh and run all sub-cases.
+Allrun.mesh     The driver script to make mesh.
+Allrun.makecaes The driver script to setup all sub-cases.
+Allrun.runcaes  The driver script to run all sub-cases.
 Allclean        The driver script to clean up all sub-cases.
 *deg            Sub-case that solves the problem under wind direction
                 of that.
-mesh            Directory where the mesh will be generated.
 share           Sharable materials
 
 2. Prerequisites
 ================
 
-Convert, gnuplot and the setDiscreteFields utility are required in
-order to run the case. setDiscreteFields is available at:
-http://openfoamwiki.net/index.php/Contrib_setDiscreteFields
+Gnuplot and convert are required in order to run the case.
 
 3. What is this?
 ================

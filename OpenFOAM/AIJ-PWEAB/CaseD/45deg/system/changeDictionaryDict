@@ -1,83 +1,116 @@
 /*--------------------------------*- C++ -*----------------------------------*\
 | =========                 |                                                 |
 | \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
-|  \\    /   O peration     | Version:  2.0.x                                 |
-|   \\  /    A nd           | Web:      www.OpenFOAM.com                      |
+|  \\    /   O peration     | Version:  x.x                                   |
+|   \\  /    A nd           | Web:      www.OpenFOAM.org                      |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
-    version     2.0;
-    format      ascii;
-    class       dictionary;
-    object      changeDictionaryDict;
+    version 2.0;
+    format  ascii;
+    class   dictionary;
+    object  changeDictionaryDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dictionaryReplacement
-{
 U
 {
-boundaryField
-{
-x_
-{
-  type            fixedValue;
-  value           uniform (0 0 0);
+    boundaryField
+    {
+        x_
+        {
+            type            timeVaryingMappedFixedValue;
+            setAverage      off;
+            offset          (0 0 0);
+            value           $internalField;
+        }
+        y_
+        {
+            type            timeVaryingMappedFixedValue;
+            setAverage      off;
+            offset          (0 0 0);
+            value           $internalField;
+        }
+    }
 }
-y_
-{
-  type            fixedValue;
-  value           uniform (0 0 0);
-}
-}
-}
+
 k
 {
-boundaryField
-{
-x_
-{
-  type            fixedValue;
-  value           uniform 0;
+    boundaryField
+    {
+        x_
+        {
+            type            timeVaryingMappedFixedValue;
+            setAverage      off;
+            offset          0;
+            value           $internalField;
+        }
+        y_
+        {
+            type            timeVaryingMappedFixedValue;
+            setAverage      off;
+            offset          0;
+            value           $internalField;
+        }
+    }
 }
-y_
-{
-  type            fixedValue;
-  value           uniform 0;
-}
-}
-}
+
 epsilon
 {
-boundaryField
+    boundaryField
+    {
+        x_
+        {
+            type            timeVaryingMappedFixedValue;
+            setAverage      off;
+            offset          0;
+            value           $internalField;
+        }
+        y_
+        {
+            type            timeVaryingMappedFixedValue;
+            setAverage      off;
+            offset          0;
+            value           $internalField;
+        }
+    }
+}
+
+omega
 {
-x_
-{
-  type            fixedValue;
-  value           uniform 0;
+    boundaryField
+    {
+        x_
+        {
+            type            timeVaryingMappedFixedValue;
+            setAverage      off;
+            offset          0;
+            value           $internalField;
+        }
+        y_
+        {
+            type            timeVaryingMappedFixedValue;
+            setAverage      off;
+            offset          0;
+            value           $internalField;
+        }
+    }
 }
-y_
-{
-  type            fixedValue;
-  value           uniform 0;
-}
-}
-}
+
 p
 {
-boundaryField
-{
-x_
-{
-  type            zeroGradient;
-}
-y_
-{
-  type            zeroGradient;
-}
-}
-}
+    boundaryField
+    {
+        x_
+        {
+            type  zeroGradient;
+        }
+        y_
+        {
+            type  zeroGradient;
+        }
+    }
 }
 
 // ************************************************************************* //

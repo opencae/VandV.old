@@ -1,8 +1,14 @@
 #!/bin/sh
 
-Cases="mesh 0deg 22.5deg 45deg"
+(cd share;./Allclean)
 
-for case in $Cases
+for case in *deg
 do
-    (cd $case;./Allclean)
+    (
+	cd $case
+	[ -x ./Allclean ] && ./Allclean
+    )
 done
+
+# remove symbolic link files
+find . -type l -exec rm -f {} \;
