@@ -14,15 +14,16 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains  2;
+numberOfSubdomains  4;
 
 // preservePatches (inlet);
 // preserveFaceZones (heater solid1 solid3);
 
-method          simple;
+// method          simple;
 // method          hierarchical;
 // method          metis;
 // method          manual;
+method          scotch;
 
 simpleCoeffs
 {
@@ -48,6 +49,10 @@ metisCoeffs
         1
     );
   */
+}
+
+scothCoeffs
+{
 }
 
 manualCoeffs

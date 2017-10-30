@@ -40,9 +40,9 @@ SIMPLE
 
     residualControl
     {
-        p                        1e-3;
-        U                        1e-3;
-        "(k|epsilon|omega|f|v2)" 1e-3;
+        p                        5e-4;
+        U                        1e-4;
+        "(k|epsilon|omega|f|v2)" 1e-4;
     }
 }
 
